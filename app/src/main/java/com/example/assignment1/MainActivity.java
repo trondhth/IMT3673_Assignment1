@@ -8,17 +8,26 @@ import android.widget.Button;
 import android.widget.TextView;
 import java.util.Random;
 
-import java.util.concurrent.ThreadLocalRandom;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Defining lowest possible initial account balance.
+    public static final int MIN = 90;
+
+    // Defining highest possible initial account balance.
+    public static final int MAX = 110;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Calling function to initialize account balance.
-        init_balance();
+        // Storing a random int between MIN(90) and MAX(110) in variable 'balance'
+        // and sending it into the label 'lbl_balance' to display on the screen.
+        int balance = init_balance();
+        final TextView balance_text = (TextView) findViewById(R.id.lbl_balance);
+        balance_text.setText(String.valueOf(balance));
 
         // Creating button linking to transactions page.
         Button button_transactions = findViewById(R.id.btn_transactions);
@@ -40,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     // Starting activity 'TransactionActivity' when button btn_transactions is pressed.
     public void transactionActivity() {
         Intent intent = new Intent(this, TransactionsActivity.class);
@@ -53,12 +61,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Initializing the account balance, range [90, 110].
-    public void init_balance() {
+    // Initializing the account balance, range [MIN, MAX].
+    public int init_balance() {
         Random r = new Random();
-        int balance = r.ints(1, 90, 111).findFirst().getAsInt();
-        //int balance = ThreadLocalRandom.current().nextInt(90, 110+1);
-        final TextView balance_text = (TextView) findViewById(R.id.lbl_balance);
-        balance_text.setText(String.valueOf(balance));
+        return r.ints(1, MIN, MAX+1).findFirst().getAsInt();
     }
+
 }
