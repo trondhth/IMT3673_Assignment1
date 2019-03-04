@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         button_transactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //transactionActivity(balance);
                 Intent intent = new Intent(MainActivity.this, TransactionsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(ARRAY, transactions);
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         button_transfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //transferActivity();
                 Intent intent = new Intent(MainActivity.this, TransferActivity.class);
                 final float balance_float = Float.parseFloat(balance_text.getText().toString());
                 intent.putExtra("Balance", balance);
@@ -69,23 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Starting activity 'TransactionActivity' when button btn_transactions is pressed.
-/*    public void transactionActivity(int balance) {
-        Intent intent = new Intent(this, TransactionsActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("array", transactions);
-        intent.putExtra("Balance", balance);
-        startActivity(intent);
-    }
-*/
-    // Starting activity 'TransferActivity' when button btn_transfer is pressed.
-/*    public void transferActivity(int balance) {
-        Intent intent = new Intent(this, TransferActivity.class);
-        final float balance_float = Float.parseFloat(balance_text.getText().toString());
-        intent.putExtra("Balance", balance);
-        startActivityForResult(intent, 0);
-    }
-*/
     // Initializing the account balance, range [MIN, MAX].
     public int init_balance() {
         Random r = new Random();

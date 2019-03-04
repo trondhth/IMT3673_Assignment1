@@ -1,40 +1,55 @@
 package com.example.assignment1;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
-/*
-public class TransactionsActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Objects;
 
+public class TransactionsActivity<transactions> extends AppCompatActivity {
+
+    private RecyclerView rec;
+    private RecyclerView.LayoutManager layoutManager;
+    private Recycler adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
-    }
-}
-*/
 
-public class TransactionsActivity extends AppCompatActivity {
-    private TextView balance_text;
+        rec = findViewById(R.id.lbl_transactions);
+        layoutManager = new LinearLayoutManager(this);
+        rec.setLayoutManager(layoutManager);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions);
-        balance_text = (TextView)findViewById(R.id.lbl_balance2);
-        Intent intent = getIntent();
+        Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        //String test = (String) bundle.describeContents();
-        //balance_text.setText(test);
+        ArrayList<transactions> transactions = (ArrayList<transactions>) Objects.requireNonNull(bundle).getParcelableArrayList(ARRAY);
 
-        if(bundle != null) {
-            int j = bundle.getInt("Balance");
-            balance_text.setText(Integer.toString(j));
-            //Log.d("martin", j);
+        ArrayList<String> printOut = new ArrayList<>();
+        assert transactions != null;
+        for (int j = 0; j < transactions.size(); j++) {
+            printOut.add(transactions.get(j).toString().replace(",", "").replace("[", "").replace("]", "").trim());
         }
+        adapter = new Recycler(printOut);
+
+        adapter.setOnItemClickListener(new Recycler.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.d("onItemClick", Integer.toString(position));
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+                Log.d("onItemLongClick", Integer.toString(position));
+            }
+        });
+        rec.setHasFixedSize(true);
+        rec.setAdapter(adapter);
+
+
     }
 }
